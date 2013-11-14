@@ -50,7 +50,7 @@ namespace MagVision.Import
             //skip field 11 that should contain lastVisit, but is filled with other data
 
             patient.Salutation = salutationDirectory.Get(dataFields[12]);
-
+            patient.Identifier = ConvertToInt32(dataFields[13]);
 
             return patient;
         }
@@ -61,6 +61,11 @@ namespace MagVision.Import
                 return string.Empty;
             else
                 return title;
+        }
+
+        private int ConvertToInt32(string value)
+        {
+            return int.Parse(value);
         }
     }
 }
