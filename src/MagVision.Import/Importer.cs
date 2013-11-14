@@ -35,6 +35,7 @@ namespace MagVision.Import
             patient.PhoneNumbers.Add(phoneNumber);
 
             patient.Birthday = dateParser.Parse(dataFields[7]);
+            patient.InsuranceNumber = CheckForZero(dataFields[8]);
 
             return patient;
         }
