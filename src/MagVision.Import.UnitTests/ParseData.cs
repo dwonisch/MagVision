@@ -15,8 +15,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0"};
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0"};
             importer = new Importer();
         }
 
@@ -66,6 +66,18 @@ namespace MagVision.Import.UnitTests
         public void InterpretPostCode0AsEmpty()
         {
             Assert.AreEqual(string.Empty, FirstAddress(importer.Import(data2)).PostCode);
+        }
+
+        [TestMethod]
+        public void InterpretCityAsRead()
+        {
+            Assert.AreEqual("Musterstadt", FirstAddress(importer.Import(data)).City);
+        }
+
+        [TestMethod]
+        public void InterpretCity0AsEmpty()
+        {
+            Assert.AreEqual(string.Empty, FirstAddress(importer.Import(data2)).City);
         }
 
         private AddressInformation FirstAddress(Patient patient)

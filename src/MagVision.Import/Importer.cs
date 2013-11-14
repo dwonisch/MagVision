@@ -19,6 +19,7 @@ namespace MagVision.Import
             var address = new AddressInformation();
             address.Street = CheckForZero(dataFields[3]);
             address.PostCode = CheckForZero(dataFields[4]);
+            address.City = CheckForZero(dataFields[5]);
 
             patient.Addresses.Add(address);
 
