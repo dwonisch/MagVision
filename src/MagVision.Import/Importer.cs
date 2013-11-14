@@ -13,6 +13,7 @@ namespace MagVision.Import
         {
             var patient = new Patient();
             patient.Title = ParseTitle(dataFields[0]);
+            patient.Name = dataFields[1];
             return patient;
         }
 
