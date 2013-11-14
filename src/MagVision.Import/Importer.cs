@@ -12,13 +12,19 @@ namespace MagVision.Import
         public Patient Import(string[] dataFields)
         {
             var patient = new Patient();
-            patient.Title = ParseTitle(dataFields[0]);
+            patient.Title = CheckForZero(dataFields[0]);
             patient.Name = dataFields[1];
             patient.FirstName = dataFields[2];
+
+            var address = new AddressInformation();
+            address.Street = CheckForZero(dataFields[3]);
+
+            patient.Addresses.Add(address);
+
             return patient;
         }
 
-        private string ParseTitle(string title)
+        private string CheckForZero(string title)
         {
             if (title == "0")
                 return string.Empty;

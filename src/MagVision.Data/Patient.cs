@@ -8,6 +8,11 @@ namespace MagVision.Data
 {
     public class Patient
     {
+        public Patient()
+        {
+            Addresses = new List<AddressInformation>();
+        }
+
         public int Identifier { get; set; }
         public Salutation Salutation { get; set; }
         public string Title { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MagVision.Data;
 
@@ -14,8 +15,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max"  };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J." };
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12"  };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "Am Teich 1"};
             importer = new Importer();
         }
 
@@ -41,6 +42,12 @@ namespace MagVision.Import.UnitTests
         public void InterpretFirstNameAsRead()
         {
             Assert.AreEqual("Max", importer.Import(data).FirstName);
+        }
+
+        [TestMethod]
+        public void InterpretStreetAsRead()
+        {
+            Assert.AreEqual("Musterstraße 12", importer.Import(data).Addresses.First().Street);
         }
     }
 }
