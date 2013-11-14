@@ -13,11 +13,13 @@ namespace MagVision.Import
     {
         private IParser<DateTime?> dateParser;
         private Directory<Medic> medicDirectory;
+        private Directory<HealthInsurance> healthInsuranceDirectory;
 
-        public Importer(IParser<DateTime?> dateParser, Directory<Medic> medicDirectory)
+        public Importer(IParser<DateTime?> dateParser, Directory<Medic> medicDirectory, Directory<HealthInsurance> healthInsuranceDirectory)
         {
             this.dateParser = dateParser;
             this.medicDirectory = medicDirectory;
+            this.healthInsuranceDirectory = healthInsuranceDirectory;
         }
 
         public Patient Import(string[] dataFields)
@@ -41,6 +43,7 @@ namespace MagVision.Import
             patient.InsuranceNumber = CheckForZero(dataFields[8]);
 
             patient.Medic = medicDirectory.Get(dataFields[9]);
+            patient.HealthInsurance = healthInsuranceDirectory.Get(dataFields[10]);
 
             return patient;
         }

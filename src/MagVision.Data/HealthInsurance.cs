@@ -8,5 +8,11 @@ namespace MagVision.Data
 {
     public class HealthInsurance
     {
+        public HealthInsurance(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; }
     }
 }

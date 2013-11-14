@@ -18,8 +18,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2"};
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1"};
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse(Arg<string>.Is.Anything)).Return(new DateTime(2000, 12, 15));
 
@@ -27,7 +27,11 @@ namespace MagVision.Import.UnitTests
             medicDirectory.Add(1, new Medic("Dr. Kurz"));
             medicDirectory.Add(2, new Medic("Dr. Lang"));
 
-            importer = new Importer(fakeDateParser, medicDirectory);
+            var healthInsuranceDirectory = new Directory<HealthInsurance>();
+            healthInsuranceDirectory.Add(1, new HealthInsurance("A"));
+            healthInsuranceDirectory.Add(2, new HealthInsurance("B"));
+
+            importer = new Importer(fakeDateParser, medicDirectory, healthInsuranceDirectory);
         }
 
         [TestMethod]
@@ -130,6 +134,18 @@ namespace MagVision.Import.UnitTests
         public void InterpretMedicCorrectlyData2()
         {
             Assert.AreEqual("Dr. Lang", importer.Import(data2).Medic.Name);
+        }
+
+        [TestMethod]
+        public void InterpretHealthInsuranceCorrectly()
+        {
+            Assert.AreEqual("B", importer.Import(data).HealthInsurance.Name);
+        }
+
+        [TestMethod]
+        public void InterpretHealthInsuranceCorrectlyData2()
+        {
+            Assert.AreEqual("A", importer.Import(data2).HealthInsurance.Name);
         }
 
         private AddressInformation FirstAddress(Patient patient)
