@@ -14,8 +14,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann"  };
-            data2 = new string[] { "Dr.", "Quak" };
+            data = new string[] { "0", "Mustermann", "Max"  };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J." };
             importer = new Importer();
         }
 
@@ -35,6 +35,12 @@ namespace MagVision.Import.UnitTests
         public void InterpretNameAsRead()
         {
             Assert.AreEqual("Mustermann", importer.Import(data).Name);
+        }
+
+        [TestMethod]
+        public void InterpretFirstNameAsRead()
+        {
+            Assert.AreEqual("Max", importer.Import(data).FirstName);
         }
     }
 }
