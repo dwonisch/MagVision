@@ -20,7 +20,7 @@ namespace MagVision.Data
         public string Name { get; set; }
         public string FirstName { get; set; }
         public string InsuranceNumber { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
         public List<PhoneNumber> PhoneNumbers { get; set; }
         public List<AddressInformation> Addresses { get; set; }
         public Medic Medic { get; set; }

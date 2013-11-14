@@ -2,11 +2,13 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MagVision.Data;
+using MagVision.Import.Parser;
+using Rhino.Mocks;
 
 namespace MagVision.Import.UnitTests
 {
     [TestClass]
-    public class ParseData
+    public class ParsePatient
     {
         string[] data;
         string[] data2;
@@ -15,9 +17,11 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0"};
-            importer = new Importer();
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938"};
+            var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
+            fakeDateParser.Stub(d => d.Parse(Arg<string>.Is.Anything)).Return(new DateTime(2000, 12, 15));
+            importer = new Importer(fakeDateParser);
         }
 
         [TestMethod]
@@ -90,6 +94,12 @@ namespace MagVision.Import.UnitTests
         public void InterpretPhoneNumber0AsEmpty()
         {
             Assert.AreEqual(string.Empty, FirstNumber(importer.Import(data2)).Number);
+        }
+
+        [TestMethod]
+        public void InterpretDateTimeWithSubmittedParser()
+        {
+            Assert.AreEqual(new DateTime(2000,12,15), importer.Import(data).Birthday);
         }
 
         private AddressInformation FirstAddress(Patient patient)

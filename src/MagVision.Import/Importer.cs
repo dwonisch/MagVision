@@ -1,4 +1,5 @@
 ﻿using MagVision.Data;
+using MagVision.Import.Parser;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,13 @@ namespace MagVision.Import
 {
     public class Importer
     {
+        private IParser<DateTime?> dateParser;
+
+        public Importer(IParser<DateTime?> dateParser)
+        {
+            this.dateParser = dateParser;
+        }
+
         public Patient Import(string[] dataFields)
         {
             var patient = new Patient();
@@ -25,6 +33,8 @@ namespace MagVision.Import
             var phoneNumber = new PhoneNumber();
             phoneNumber.Number = CheckForZero(dataFields[6]);
             patient.PhoneNumbers.Add(phoneNumber);
+
+            patient.Birthday = dateParser.Parse(dataFields[7]);
 
             return patient;
         }
