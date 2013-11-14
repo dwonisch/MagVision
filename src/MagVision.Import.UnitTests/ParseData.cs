@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MagVision.Data;
 using MagVision.Import.Parser;
 using Rhino.Mocks;
+using MagVision.Import.Directories;
 
 namespace MagVision.Import.UnitTests
 {
@@ -17,11 +18,16 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0"};
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2"};
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse(Arg<string>.Is.Anything)).Return(new DateTime(2000, 12, 15));
-            importer = new Importer(fakeDateParser);
+
+            var medicDirectory = new Directory<Medic>();
+            medicDirectory.Add(1, new Medic("Dr. Kurz"));
+            medicDirectory.Add(2, new Medic("Dr. Lang"));
+
+            importer = new Importer(fakeDateParser, medicDirectory);
         }
 
         [TestMethod]
@@ -112,6 +118,18 @@ namespace MagVision.Import.UnitTests
         public void InterpretInsuranceNumber0AsEmpty()
         {
             Assert.AreEqual(string.Empty, importer.Import(data2).InsuranceNumber);
+        }
+
+        [TestMethod]
+        public void InterpretMedicCorrectly()
+        {
+            Assert.AreEqual("Dr. Kurz", importer.Import(data).Medic.Name);
+        }
+
+        [TestMethod]
+        public void InterpretMedicCorrectlyData2()
+        {
+            Assert.AreEqual("Dr. Lang", importer.Import(data2).Medic.Name);
         }
 
         private AddressInformation FirstAddress(Patient patient)

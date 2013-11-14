@@ -1,4 +1,5 @@
 ﻿using MagVision.Data;
+using MagVision.Import.Directories;
 using MagVision.Import.Parser;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace MagVision.Import
     public class Importer
     {
         private IParser<DateTime?> dateParser;
+        private Directory<Medic> medicDirectory;
 
-        public Importer(IParser<DateTime?> dateParser)
+        public Importer(IParser<DateTime?> dateParser, Directory<Medic> medicDirectory)
         {
             this.dateParser = dateParser;
+            this.medicDirectory = medicDirectory;
         }
 
         public Patient Import(string[] dataFields)
@@ -36,6 +39,8 @@ namespace MagVision.Import
 
             patient.Birthday = dateParser.Parse(dataFields[7]);
             patient.InsuranceNumber = CheckForZero(dataFields[8]);
+
+            patient.Medic = medicDirectory.Get(dataFields[9]);
 
             return patient;
         }
