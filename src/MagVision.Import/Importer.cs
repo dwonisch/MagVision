@@ -20,8 +20,11 @@ namespace MagVision.Import
             address.Street = CheckForZero(dataFields[3]);
             address.PostCode = CheckForZero(dataFields[4]);
             address.City = CheckForZero(dataFields[5]);
-
             patient.Addresses.Add(address);
+
+            var phoneNumber = new PhoneNumber();
+            phoneNumber.Number = CheckForZero(dataFields[6]);
+            patient.PhoneNumbers.Add(phoneNumber);
 
             return patient;
         }

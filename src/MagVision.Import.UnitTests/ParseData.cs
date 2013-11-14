@@ -15,8 +15,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0"};
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0"};
             importer = new Importer();
         }
 
@@ -80,9 +80,26 @@ namespace MagVision.Import.UnitTests
             Assert.AreEqual(string.Empty, FirstAddress(importer.Import(data2)).City);
         }
 
+        [TestMethod]
+        public void InterpretPhoneNumberAsRead()
+        {
+            Assert.AreEqual("0666 999 999 999", FirstNumber(importer.Import(data)).Number);
+        }
+
+        [TestMethod]
+        public void InterpretPhoneNumber0AsEmpty()
+        {
+            Assert.AreEqual(string.Empty, FirstNumber(importer.Import(data2)).Number);
+        }
+
         private AddressInformation FirstAddress(Patient patient)
         {
             return patient.Addresses.First();
+        }
+
+        private PhoneNumber FirstNumber(Patient patient)
+        {
+            return patient.PhoneNumbers.First();
         }
     }
 }

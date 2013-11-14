@@ -11,6 +11,7 @@ namespace MagVision.Data
         public Patient()
         {
             Addresses = new List<AddressInformation>();
+            PhoneNumbers = new List<PhoneNumber>();
         }
 
         public int Identifier { get; set; }
