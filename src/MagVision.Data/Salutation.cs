@@ -8,5 +8,11 @@ namespace MagVision.Data
 {
     public class Salutation
     {
+        public Salutation(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; }
     }
 }

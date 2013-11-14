@@ -14,12 +14,14 @@ namespace MagVision.Import
         private IParser<DateTime?> dateParser;
         private Directory<Medic> medicDirectory;
         private Directory<HealthInsurance> healthInsuranceDirectory;
+        private Directory<Salutation> salutationDirectory;
 
-        public Importer(IParser<DateTime?> dateParser, Directory<Medic> medicDirectory, Directory<HealthInsurance> healthInsuranceDirectory)
+        public Importer(IParser<DateTime?> dateParser, Directory<Medic> medicDirectory, Directory<HealthInsurance> healthInsuranceDirectory, Directory<Salutation> salutationDirectory)
         {
             this.dateParser = dateParser;
             this.medicDirectory = medicDirectory;
             this.healthInsuranceDirectory = healthInsuranceDirectory;
+            this.salutationDirectory = salutationDirectory;
         }
 
         public Patient Import(string[] dataFields)
@@ -47,6 +49,7 @@ namespace MagVision.Import
 
             //skip field 11 that should contain lastVisit, but is filled with other data
 
+            patient.Salutation = salutationDirectory.Get(dataFields[12]);
 
 
             return patient;
