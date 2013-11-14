@@ -45,6 +45,10 @@ namespace MagVision.Import
             patient.Medic = medicDirectory.Get(dataFields[9]);
             patient.HealthInsurance = healthInsuranceDirectory.Get(dataFields[10]);
 
+            //skip field 11 that should contain lastVisit, but is filled with other data
+
+
+
             return patient;
         }
 

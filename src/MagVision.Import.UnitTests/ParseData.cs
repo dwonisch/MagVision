@@ -18,8 +18,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1"};
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0"};
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse(Arg<string>.Is.Anything)).Return(new DateTime(2000, 12, 15));
 
@@ -146,6 +146,15 @@ namespace MagVision.Import.UnitTests
         public void InterpretHealthInsuranceCorrectlyData2()
         {
             Assert.AreEqual("A", importer.Import(data2).HealthInsurance.Name);
+        }
+
+        /// <summary>
+        /// Do not read this value because it is used in another way. Leave it as default.
+        /// </summary>
+        [TestMethod]
+        public void DoNotInterpretLastCheck()
+        {
+            Assert.AreEqual(null, importer.Import(data).LastVisit);
         }
 
         private AddressInformation FirstAddress(Patient patient)
