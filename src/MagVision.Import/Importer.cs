@@ -65,9 +65,15 @@ namespace MagVision.Import
 
             var findings = new DiagnosticFindings();
             findings.MedicationDate = dateParser.Parse(dataFields[19]);
+            findings.Cataract = ConvertToBoolean(dataFields[20]);
 
             patient.DiagnosticFindings.Add(findings);
             return patient;
+        }
+
+        private bool ConvertToBoolean(string data)
+        {
+            return data == "1";
         }
 
         private AddressInformation ParseAddress(string addressString)

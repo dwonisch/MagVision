@@ -18,8 +18,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0", "0", "0" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777", "Mutter","01 01 2013" };
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0", "1" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777", "Mutter", "01 01 2013", "1", "0", "1", "0", "1", "0", "1", "0" };
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse("17.05.1938")).Return(new DateTime(1938,5,17));
             fakeDateParser.Stub(d => d.Parse("13 08 1938")).Return(new DateTime(1938,8,13));
@@ -239,7 +239,13 @@ namespace MagVision.Import.UnitTests
         [TestMethod]
         public void InterpretMedicationDateAsRead()
         {
-            Assert.AreEqual(new DateTime(2013, 01, 01), importer.Import(data2).DiagnosticFindings.First().MedicationDate);
+            Assert.AreEqual(new DateTime(2013, 01, 01), FirstFindings(importer.Import(data2)).MedicationDate);
+        }
+
+        [TestMethod]
+        public void InterpretCataractCorrectly()
+        {
+            Assert.AreEqual(true, FirstFindings(importer.Import(data2)).Cataract);
         }
 
         private AddressInformation FirstAddress(Patient patient)
@@ -250,6 +256,11 @@ namespace MagVision.Import.UnitTests
         private PhoneNumber FirstNumber(Person patient)
         {
             return patient.PhoneNumbers.First();
+        }
+
+        private DiagnosticFindings FirstFindings(Patient patient)
+        {
+            return patient.DiagnosticFindings.First();
         }
     }
 }
