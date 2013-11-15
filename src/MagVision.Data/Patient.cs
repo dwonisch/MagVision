@@ -26,6 +26,6 @@ namespace MagVision.Data
         public Medic Medic { get; set; }
         public HealthInsurance HealthInsurance { get; set; }
         public DateTime? LastVisit { get; set; }
-        public string InsuredPerson { get; set; }
+        public InsuredPerson InsuredPerson { get; set; }
     }
 }

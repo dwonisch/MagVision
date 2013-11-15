@@ -52,6 +52,11 @@ namespace MagVision.Import
             patient.Salutation = salutationDirectory.Get(dataFields[12]);
             patient.Identifier = ConvertToInt32(dataFields[13]);
 
+            var insuredPerson = new InsuredPerson();
+            insuredPerson.Name = CheckForZero(dataFields[14]);
+
+            patient.InsuredPerson = insuredPerson;
+
             return patient;
         }
 
