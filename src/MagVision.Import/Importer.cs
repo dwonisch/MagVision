@@ -15,13 +15,15 @@ namespace MagVision.Import
         private Directory<Medic> medicDirectory;
         private Directory<HealthInsurance> healthInsuranceDirectory;
         private Directory<Salutation> salutationDirectory;
+        private IParser<Measurement> measurementParser;
 
-        public Importer(IParser<DateTime?> dateParser, Directory<Medic> medicDirectory, Directory<HealthInsurance> healthInsuranceDirectory, Directory<Salutation> salutationDirectory)
+        public Importer(IParser<DateTime?> dateParser, Directory<Medic> medicDirectory, Directory<HealthInsurance> healthInsuranceDirectory, Directory<Salutation> salutationDirectory, IParser<Measurement> measurementParser)
         {
             this.dateParser = dateParser;
             this.medicDirectory = medicDirectory;
             this.healthInsuranceDirectory = healthInsuranceDirectory;
             this.salutationDirectory = salutationDirectory;
+            this.measurementParser = measurementParser;
         }
 
         public Patient Import(string[] dataFields)
@@ -76,6 +78,9 @@ namespace MagVision.Import
             //skip field 27 that contains else Boolean-value because it is enough to know if the text exists
 
             findings.Else = dataFields[27];
+
+            patient.Measurements.Add(measurementParser.Parse(dataFields[28]));
+
 
             patient.DiagnosticFindings.Add(findings);
             return patient;

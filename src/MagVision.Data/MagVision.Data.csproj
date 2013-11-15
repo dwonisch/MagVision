@@ -42,6 +42,7 @@
     <Compile Include="Acuity.cs" />
     <Compile Include="Address.cs" />
     <Compile Include="DiagnosticFindings.cs" />
+    <Compile Include="Eye.cs" />
     <Compile Include="HealthInsurance.cs" />
     <Compile Include="InsuredPerson.cs" />
     <Compile Include="Measurements.cs" />

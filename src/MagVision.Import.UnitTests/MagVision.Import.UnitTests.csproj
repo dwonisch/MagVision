@@ -55,7 +55,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AcuityParserTests.cs" />
     <Compile Include="DateParserTests.cs" />
+    <Compile Include="EyeParserTests.cs" />
     <Compile Include="ParseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

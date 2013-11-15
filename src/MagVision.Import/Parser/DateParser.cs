@@ -24,5 +24,11 @@ namespace MagVision.Import.Parser
         {
             return value.Contains(date.Year.ToString());
         }
+
+
+        public DateTime? Parse(params string[] values)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

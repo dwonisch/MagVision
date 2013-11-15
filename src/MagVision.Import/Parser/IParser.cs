@@ -9,5 +9,6 @@ namespace MagVision.Import.Parser
     public interface IParser<T>
     {
         T Parse(string value);
+        T Parse(params string[] values);
     }
 }
