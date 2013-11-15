@@ -54,6 +54,7 @@ namespace MagVision.Import
 
             var insuredPerson = new InsuredPerson();
             insuredPerson.Name = CheckForZero(dataFields[14]);
+            insuredPerson.Birthday = dateParser.Parse(dataFields[15]);
 
             patient.InsuredPerson = insuredPerson;
 

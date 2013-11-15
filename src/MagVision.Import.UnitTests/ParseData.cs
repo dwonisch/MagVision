@@ -18,10 +18,12 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0"};
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0" };
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
-            fakeDateParser.Stub(d => d.Parse(Arg<string>.Is.Anything)).Return(new DateTime(2000, 12, 15));
+            fakeDateParser.Stub(d => d.Parse("17.05.1938")).Return(new DateTime(1938,5,17));
+            fakeDateParser.Stub(d => d.Parse("13 08 1938")).Return(new DateTime(1938,8,13));
+            fakeDateParser.Stub(d => d.Parse("31 05 90")).Return(new DateTime(1990,5,31));
 
             var medicDirectory = new Directory<Medic>();
             medicDirectory.Add(1, new Medic("Dr. Kurz"));
@@ -114,7 +116,7 @@ namespace MagVision.Import.UnitTests
         [TestMethod]
         public void InterpretDateTimeWithSubmittedParser()
         {
-            Assert.AreEqual(new DateTime(2000,12,15), importer.Import(data).Birthday);
+            Assert.AreEqual(new DateTime(1938,5,17), importer.Import(data).Birthday);
         }
 
         [TestMethod]
@@ -175,15 +177,21 @@ namespace MagVision.Import.UnitTests
         }
 
         [TestMethod]
-        public void InterpretInsuredPersonAsRead()
+        public void InterpretInsuredPersonNameAsRead()
         {
             Assert.AreEqual("Frau Mustermann", importer.Import(data).InsuredPerson.Name);
         }
 
         [TestMethod]
-        public void InterpretInsurePerson0AsEmpty()
+        public void InterpretInsuredPerson0AsEmpty()
         {
-            Assert.AreEqual(string.Empty, importer.Import(data).InsuredPerson.Name);
+            Assert.AreEqual(string.Empty, importer.Import(data2).InsuredPerson.Name);
+        }
+
+        [TestMethod]
+        public void InterpretInsuredPersonBirthdayAsRead()
+        {
+            Assert.AreEqual(new DateTime(1990,5,31), importer.Import(data).InsuredPerson.Birthday);
         }
 
         private AddressInformation FirstAddress(Patient patient)

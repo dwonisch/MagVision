@@ -10,6 +10,7 @@ namespace MagVision.Data
     {
         public string FirstName { get; set; }
         public string Name { get; set; }
+        public DateTime? Birthday { get; set; }
         public AddressInformation Address { get; set; }
         public List<PhoneNumber> PhoneNumber { get; set; }
         public string DegreeOfRelationship { get; set; }
