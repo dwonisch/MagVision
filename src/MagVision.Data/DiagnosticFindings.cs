@@ -8,6 +8,7 @@ namespace MagVision.Data
 {
     public class DiagnosticFindings
     {
+        public DateTime? MedicationDate { get; set; }
         public bool Cataract { get; set; }
         public bool MacularDegeneration { get; set; }
         public bool RetinopathiaDiabetica { get; set; }

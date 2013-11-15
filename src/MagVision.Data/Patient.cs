@@ -11,6 +11,7 @@ namespace MagVision.Data
         public Patient()
         {
             Addresses = new List<AddressInformation>();
+            DiagnosticFindings = new List<DiagnosticFindings>();
         }
 
         public int Identifier { get; set; }
@@ -25,5 +26,6 @@ namespace MagVision.Data
         public HealthInsurance HealthInsurance { get; set; }
         public DateTime? LastVisit { get; set; }
         public InsuredPerson InsuredPerson { get; set; }
+        public List<DiagnosticFindings> DiagnosticFindings { get; set; }
     }
 }

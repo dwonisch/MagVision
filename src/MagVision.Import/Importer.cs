@@ -63,6 +63,10 @@ namespace MagVision.Import
 
             patient.InsuredPerson = insuredPerson;
 
+            var findings = new DiagnosticFindings();
+            findings.MedicationDate = dateParser.Parse(dataFields[19]);
+
+            patient.DiagnosticFindings.Add(findings);
             return patient;
         }
 
