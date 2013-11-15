@@ -74,6 +74,7 @@
     <Compile Include="Parser\DateParser.cs" />
     <Compile Include="Parser\EyeParser.cs" />
     <Compile Include="Parser\IParser.cs" />
+    <Compile Include="Parser\MagnificationFactorParser.cs" />
     <Compile Include="Parser\MeasurementParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

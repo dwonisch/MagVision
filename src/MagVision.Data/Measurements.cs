@@ -8,6 +8,17 @@ namespace MagVision.Data
 {
     public class Measurement
     {
+        public Measurement()
+        {
+        }
+
+        public Measurement(Acuity hyperopic, Acuity myopic, float magnification)
+        {
+            Hyperobic = hyperopic;
+            Myopic = myopic;
+            Magnification = magnification;
+        }
+
         public DateTime? Date { get; set; }
         public Acuity Hyperobic { get; set; }
         public Acuity Myopic { get; set; }

@@ -18,8 +18,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0", "0", "LA" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777", "Mutter", "01 01 2013", "1", "0", "1", "0", "1", "0", "1", "Schlaganfall", "LA" };
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0", "0", "HY","MY","FACT" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777", "Mutter", "01 01 2013", "1", "0", "1", "0", "1", "0", "1", "Schlaganfall", "HY", "MY","FACT" };
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse("17.05.1938")).Return(new DateTime(1938,5,17));
             fakeDateParser.Stub(d => d.Parse("13 08 1938")).Return(new DateTime(1938,8,13));
@@ -40,7 +40,7 @@ namespace MagVision.Import.UnitTests
             salutationDirectory.Add(3, new Salutation("Firma"));
 
             var fakeMeasurementParser = MockRepository.GenerateStub<IParser<Measurement>>();
-            fakeMeasurementParser.Stub(a => a.Parse(Arg<string>.Is.Anything)).Return(new Measurement());
+            fakeMeasurementParser.Stub(a => a.Parse(Arg<string[]>.Is.Anything)).Return(new Measurement());
 
             importer = new Importer(fakeDateParser, medicDirectory, healthInsuranceDirectory, salutationDirectory, fakeMeasurementParser);
         }

@@ -79,7 +79,7 @@ namespace MagVision.Import
 
             findings.Else = dataFields[27];
 
-            patient.Measurements.Add(measurementParser.Parse(dataFields[28]));
+            patient.Measurements.Add(measurementParser.Parse(dataFields[28], dataFields[29], dataFields[30]));
 
 
             patient.DiagnosticFindings.Add(findings);

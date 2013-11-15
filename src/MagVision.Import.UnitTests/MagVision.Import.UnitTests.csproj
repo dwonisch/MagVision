@@ -57,7 +57,10 @@
   <ItemGroup>
     <Compile Include="AcuityParserTests.cs" />
     <Compile Include="DateParserTests.cs" />
+    <Compile Include="ExceptionAssert.cs" />
     <Compile Include="EyeParserTests.cs" />
+    <Compile Include="MagnificationFactorParserTests.cs" />
+    <Compile Include="MeasurementParserTests.cs" />
     <Compile Include="ParseData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
