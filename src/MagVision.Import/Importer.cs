@@ -55,10 +55,25 @@ namespace MagVision.Import
             var insuredPerson = new InsuredPerson();
             insuredPerson.Name = CheckForZero(dataFields[14]);
             insuredPerson.Birthday = dateParser.Parse(dataFields[15]);
+            insuredPerson.Address = ParseAddress(CheckForZero(dataFields[16]));
 
             patient.InsuredPerson = insuredPerson;
 
             return patient;
+        }
+
+        private AddressInformation ParseAddress(string addressString)
+        {
+            var fields = addressString.Split(' ', '.');
+            var address = new AddressInformation();
+
+            if (fields.Length == 4)
+            {
+                address.Street = string.Format("{0} {1}", fields[0], fields[1]);
+                address.PostCode = fields[2];
+                address.City = fields[3];
+            }
+            return address;
         }
 
         private string CheckForZero(string title)
