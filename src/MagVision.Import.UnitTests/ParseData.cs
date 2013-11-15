@@ -18,8 +18,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0" };
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777" };
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse("17.05.1938")).Return(new DateTime(1938,5,17));
             fakeDateParser.Stub(d => d.Parse("13 08 1938")).Return(new DateTime(1938,8,13));
@@ -209,6 +209,18 @@ namespace MagVision.Import.UnitTests
         public void InterpretInsuredPersonAddress0AsEmpty()
         {
             Assert.AreEqual(new AddressInformation(), importer.Import(data2).InsuredPerson.Address);
+        }
+
+        [TestMethod]
+        public void InterpretInsuredPersonPhoneNumber0AsEmpty()
+        {
+            Assert.AreEqual(string.Empty, importer.Import(data).InsuredPerson.PhoneNumber);
+        }
+
+        [TestMethod]
+        public void InterpretInsuredPersonPhoneNumberAsRead()
+        {
+            Assert.AreEqual("0666 999 888 777", importer.Import(data2).InsuredPerson.PhoneNumber);
         }
 
         private AddressInformation FirstAddress(Patient patient)
