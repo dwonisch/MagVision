@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace MagVision.Data
 {
-    public class InsuredPerson
+    public class InsuredPerson : Person
     {
         public string FirstName { get; set; }
         public string Name { get; set; }
         public DateTime? Birthday { get; set; }
         public AddressInformation Address { get; set; }
-        public List<PhoneNumber> PhoneNumber { get; set; }
         public string DegreeOfRelationship { get; set; }
     }
 }

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace MagVision.Data
 {
-    public class Patient
+    public class Patient : Person
     {
         public Patient()
         {
             Addresses = new List<AddressInformation>();
-            PhoneNumbers = new List<PhoneNumber>();
         }
 
         public int Identifier { get; set; }
@@ -21,7 +20,6 @@ namespace MagVision.Data
         public string FirstName { get; set; }
         public string InsuranceNumber { get; set; }
         public DateTime? Birthday { get; set; }
-        public List<PhoneNumber> PhoneNumbers { get; set; }
         public List<AddressInformation> Addresses { get; set; }
         public Medic Medic { get; set; }
         public HealthInsurance HealthInsurance { get; set; }

@@ -37,9 +37,10 @@ namespace MagVision.Import
             address.City = CheckForZero(dataFields[5]);
             patient.Addresses.Add(address);
 
-            var phoneNumber = new PhoneNumber();
-            phoneNumber.Number = CheckForZero(dataFields[6]);
-            patient.PhoneNumbers.Add(phoneNumber);
+            if (!IsZero(dataFields[6]))
+            {
+                patient.PhoneNumbers.Add(new PhoneNumber(dataFields[6]));
+            }
 
             patient.Birthday = dateParser.Parse(dataFields[7]);
             patient.InsuranceNumber = CheckForZero(dataFields[8]);
@@ -56,6 +57,9 @@ namespace MagVision.Import
             insuredPerson.Name = CheckForZero(dataFields[14]);
             insuredPerson.Birthday = dateParser.Parse(dataFields[15]);
             insuredPerson.Address = ParseAddress(CheckForZero(dataFields[16]));
+            if(!IsZero(dataFields[17]))
+                insuredPerson.PhoneNumbers.Add(new PhoneNumber(dataFields[17]));
+            insuredPerson.DegreeOfRelationship = CheckForZero(dataFields[18]);
 
             patient.InsuredPerson = insuredPerson;
 
@@ -78,10 +82,15 @@ namespace MagVision.Import
 
         private string CheckForZero(string title)
         {
-            if (title == "0")
+            if (IsZero(title))
                 return string.Empty;
             else
                 return title;
+        }
+
+        private static bool IsZero(string title)
+        {
+            return title == "0";
         }
 
         private int ConvertToInt32(string value)

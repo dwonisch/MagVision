@@ -18,8 +18,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777" };
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0", "0" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777", "Mutter" };
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse("17.05.1938")).Return(new DateTime(1938,5,17));
             fakeDateParser.Stub(d => d.Parse("13 08 1938")).Return(new DateTime(1938,8,13));
@@ -110,7 +110,7 @@ namespace MagVision.Import.UnitTests
         [TestMethod]
         public void InterpretPhoneNumber0AsEmpty()
         {
-            Assert.AreEqual(string.Empty, FirstNumber(importer.Import(data2)).Number);
+            Assert.AreEqual(0, importer.Import(data2).PhoneNumbers.Count);
         }
 
         [TestMethod]
@@ -214,13 +214,25 @@ namespace MagVision.Import.UnitTests
         [TestMethod]
         public void InterpretInsuredPersonPhoneNumber0AsEmpty()
         {
-            Assert.AreEqual(string.Empty, importer.Import(data).InsuredPerson.PhoneNumber);
+            Assert.AreEqual(0, importer.Import(data).InsuredPerson.PhoneNumbers.Count);
         }
 
         [TestMethod]
         public void InterpretInsuredPersonPhoneNumberAsRead()
         {
-            Assert.AreEqual("0666 999 888 777", importer.Import(data2).InsuredPerson.PhoneNumber);
+            Assert.AreEqual("0666 999 888 777", FirstNumber(importer.Import(data2).InsuredPerson).Number);
+        }
+
+        [TestMethod]
+        public void InterpretInsuredPersonRelationshipAsRead()
+        {
+            Assert.AreEqual("Mutter", importer.Import(data2).InsuredPerson.DegreeOfRelationship);
+        }
+
+        [TestMethod]
+        public void InterpretInsuredPersonRelationShip0AsEmpty()
+        {
+            Assert.AreEqual(string.Empty, importer.Import(data).InsuredPerson.DegreeOfRelationship);
         }
 
         private AddressInformation FirstAddress(Patient patient)
@@ -228,7 +240,7 @@ namespace MagVision.Import.UnitTests
             return patient.Addresses.First();
         }
 
-        private PhoneNumber FirstNumber(Patient patient)
+        private PhoneNumber FirstNumber(Person patient)
         {
             return patient.PhoneNumbers.First();
         }
