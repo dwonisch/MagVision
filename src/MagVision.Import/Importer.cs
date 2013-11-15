@@ -73,6 +73,10 @@ namespace MagVision.Import
             findings.Hemorrhage = ConvertToBoolean(dataFields[25]);
             findings.AtropiaNerviOptici = ConvertToBoolean(dataFields[26]);
 
+            //skip field 27 that contains else Boolean-value because it is enough to know if the text exists
+
+            findings.Else = dataFields[27];
+
             patient.DiagnosticFindings.Add(findings);
             return patient;
         }
