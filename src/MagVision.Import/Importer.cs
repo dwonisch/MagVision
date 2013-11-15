@@ -66,6 +66,12 @@ namespace MagVision.Import
             var findings = new DiagnosticFindings();
             findings.MedicationDate = dateParser.Parse(dataFields[19]);
             findings.Cataract = ConvertToBoolean(dataFields[20]);
+            findings.MacularDegeneration = ConvertToBoolean(dataFields[21]);
+            findings.RetinopathiaDiabetica = ConvertToBoolean(dataFields[22]);
+            findings.Aphakia = ConvertToBoolean(dataFields[23]);
+            findings.Edema = ConvertToBoolean(dataFields[24]);
+            findings.Hemorrhage = ConvertToBoolean(dataFields[25]);
+            findings.AtropiaNerviOptici = ConvertToBoolean(dataFields[26]);
 
             patient.DiagnosticFindings.Add(findings);
             return patient;

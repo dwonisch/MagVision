@@ -18,8 +18,8 @@ namespace MagVision.Import.UnitTests
         [TestInitialize]
         public void Initialize()
         {
-            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0", "1" };
-            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777", "Mutter", "01 01 2013", "1", "0", "1", "0", "1", "0", "1", "0" };
+            data = new string[] { "0", "Mustermann", "Max", "Musterstraße 12", "9999", "Musterstadt", "0666 999 999 999", "17.05.1938", "1234", "1", "2", "0", "2", "1234", "Frau Mustermann", "31 05 90", "Entenhausen.12 4444 Europe", "0", "0", "0", "0", "1", "0", "1", "0", "1", "0" };
+            data2 = new string[] { "Dr.", "Quak", "Alfred J.", "0", "0", "0", "0", "13 08 1938", "0", "2", "1", "0", "3", "12345", "0", "0", "0", "0666 999 888 777", "Mutter", "01 01 2013", "1", "0", "1", "0", "1", "0", "1" };
             var fakeDateParser = MockRepository.GenerateStub<IParser<DateTime?>>();
             fakeDateParser.Stub(d => d.Parse("17.05.1938")).Return(new DateTime(1938,5,17));
             fakeDateParser.Stub(d => d.Parse("13 08 1938")).Return(new DateTime(1938,8,13));
@@ -246,6 +246,42 @@ namespace MagVision.Import.UnitTests
         public void InterpretCataractCorrectly()
         {
             Assert.AreEqual(true, FirstFindings(importer.Import(data2)).Cataract);
+        }
+
+        [TestMethod]
+        public void InterpretMacularDegenerationCorrectly()
+        {
+            Assert.AreEqual(true, FirstFindings(importer.Import(data)).MacularDegeneration);
+        }
+
+        [TestMethod]
+        public void InterpretRetinopathiaDiabeticaCorrectly()
+        {
+            Assert.AreEqual(true, FirstFindings(importer.Import(data2)).RetinopathiaDiabetica);
+        }
+
+        [TestMethod]
+        public void InterpretAphakiaCorrectly()
+        {
+            Assert.AreEqual(true, FirstFindings(importer.Import(data)).Aphakia);
+        }
+
+        [TestMethod]
+        public void InterpretEdemaCorrectly()
+        {
+            Assert.AreEqual(true, FirstFindings(importer.Import(data2)).Edema);
+        }
+
+        [TestMethod]
+        public void InterpretHemorrhageCorrectly()
+        {
+            Assert.AreEqual(true, FirstFindings(importer.Import(data)).Hemorrhage);
+        }
+
+        [TestMethod]
+        public void InterpretAtropiaNerviOpticiCorrectly()
+        {
+            Assert.AreEqual(true, FirstFindings(importer.Import(data2)).AtropiaNerviOptici);
         }
 
         private AddressInformation FirstAddress(Patient patient)
